@@ -1,0 +1,145 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOP DAPP</title>
+    <link rel="icon" href="favicon.png" type="image/gif">
+
+    <!-- require jquery and bootstrap scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    
+    <!-- adding style here -->
+    <style type="text/css">
+      header{
+        background-color: lightgray;
+        font-size:20px;
+        padding:15px;
+      }
+      header, .form-group{
+        margin-bottom: 3%;
+      }
+      .form-group{
+        width:50%;
+      }
+      #body{
+        margin-left:3%;
+        margin-right:3%;
+      }
+      .form-control{
+        margin: 8px;
+      }
+      #right_header{
+        width:20%;
+        font-size:15px;
+        margin-right:0px;
+      }
+      #left_header{
+        margin-left:0;
+        width:40%;
+        display:inline-block;
+      } 
+      #id {
+        width:49%;
+        display: inline-block;
+      }
+      table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+      }
+      tr:nth-child(even) {
+          background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body ng-app="application" ng-controller="appController">
+    <header>
+      <div id="left_header">DOP DAPP</div>
+      <i id="right_header">Certificación de origen alimentario</i>
+    </header>
+
+    <div id="body">
+      <div class="form-group">
+        <label>Mostrar todos los registros</label>
+        <p><input id="queryAllTuna" type="submit" value="Buscar" class="btn btn-primary" ng-click="queryAllTuna()"></p>
+      </div>
+ 
+      <table id="all_tuna" class="table" align="center">
+
+        <tr>
+          <th>ID</th>
+          <th>Marca de Fecha (timestamp)</th>
+          <th>Estación</th>
+          <th>Ubicación <br>(Longitud, Latitud)</th>
+        
+        </tr>
+
+        <tr ng-repeat="tuna in all_tuna">
+          <td>{{tuna.Key}}</td>
+          <td>{{tuna.timestamp}}</td>
+          <td>{{tuna.holder}}</td>
+          <td>{{tuna.location}}</td>
+        
+        </tr>
+      </table>
+
+      <div class="form-group">
+        <label>Buscar un producto por ID</label><br>
+        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: por favor ingresa una Id válida</h5>
+        
+        Ingresa una ID: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="tuna_id">
+        <input id="querySubmit" type="submit" value="Buscar" class="btn btn-primary" ng-click="queryTuna()">
+      </div>
+
+      <table id="query_tuna" class="table" align="center">
+
+        <tr>
+          <th>Marca de Fecha (timestamp)</th>
+          <th>Estación</th>
+          <th>Ubicación <br>(Longitud, Latitud)</th>
+  
+        </tr>
+
+        <tr>
+          <td>{{query_tuna.timestamp}}</td>
+          <td>{{query_tuna.holder}}</td>
+          <td>{{query_tuna.location}}</td>
+          <td>{{query_tuna.vessel}}</td>
+        </tr>
+      </table>
+
+      <div class="form-group">
+        <label>Ingresa nuevo producto</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_create">Completado Tx ID: {{create_tuna}}</h5>
+        <br>
+       
+        Ingresar longitud: <input id="createName" class="form-control" type="text" placeholder="Ex: 28.012" ng-model="tuna.longitude"> 
+        Ingresar latitud: <input id="createName" class="form-control" type="text" placeholder="Ex: 150.405" ng-model="tuna.latitude">
+        Ingresar Marca de Fecha (timestamp): <input class="form-control" type="text" placeholder="Ex: 4982342301" ng-model="tuna.timestamp">
+        Ingresar nombre estación: <input class="form-control" type="text" placeholder="Ejemplo: Fábrica" ng-model="tuna.holder">
+        <input id="createSubmit" type="submit" value="Crear" class="btn btn-primary" ng-click="recordTuna()"> 
+      </div>
+
+      <div class="form-group">
+        <label>Cambiar estación</label><br>
+        <h5 style="color:green;margin-bottom:2%" id="success_holder">Completado! Tx ID: {{change_holder}}</h5>
+        <h5 style="color:red;margin-bottom:2%" id="error_holder">Error: por favor ingresa una Id válida</h5>
+        Ingresa ID del producto: <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="holder.id">
+        Ingresa el nombre de la nueva estación: <input class="form-control" name="assetSelect" placeholder="Ejemplo: " ng-model="holder.name">
+        <input id="transferSubmit" type="submit" value="Cambiar" class="btn btn-primary" ng-click="changeHolder()">
+      </div>
+
+    </div>
+  </body>
+    <!-- requiring the angular page -->
+    <script type="text/javascript" src="app.js"> </script>
+</html>
